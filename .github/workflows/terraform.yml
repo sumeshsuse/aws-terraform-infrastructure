@@ -1,0 +1,21 @@
+name: Terraform CI/CD
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write  
+  contents: read
+
+env:
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+  AWS_REGION: us-east-1           
+  TF_VERSION: 1.9.5          
+  S3_BACKEND_BUCKET: sumesh-terraform-state        
+  S3_BACKEND_KEY_PREFIX: infra                      
+  DDB_TABLE: terraform-locks                        
