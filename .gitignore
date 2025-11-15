@@ -1,0 +1,17 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local variables (optional)
+*.auto.tfvars
+*.tfvars
+!environments/**/terraform.tfvars
+
+# macOS
+.DS_Store
