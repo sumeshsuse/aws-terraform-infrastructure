@@ -19,3 +19,26 @@ env:
   S3_BACKEND_BUCKET: sumesh-terraform-state        
   S3_BACKEND_KEY_PREFIX: infra                      
   DDB_TABLE: terraform-locks                        
+
+jobs:
+  plan:
+    name: Terraform Plan (${{ matrix.env }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [dev, stage, prod]
+    environment: ${{ matrix.env }}    # optional: use env protections on PRs too
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/<ROLE_NAME_FOR_GITHUB_OIDC>  # <-- change me
+          role-session-name: gha-terraform-plan
